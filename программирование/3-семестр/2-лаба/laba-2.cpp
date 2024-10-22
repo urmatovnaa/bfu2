@@ -37,39 +37,55 @@ public:
 
 };
 
-Result find_x(double E) 
+class Point
 {
-    double R = -10;
-    double L = -10;
-    if (f(L) < 0){
-        while (f(R) < 0){ R += 0.5;}
-    }
-    else if (f(L) > 0){
-        while (f(R) > 0){ R += 0.5;}
+public:
+    double x;
+    double y;
+    Point(){}
+    Point(double m_x, double m_y) : x(m_x), y(m_y) {}
+};
+
+Result find_M(double E) 
+{
+    double R = 0;
+    double L = 0;
+    while (true){
+        if (f(L) < 0 and f(R) > 0){break;}
+        else if (f(L) > 0 and f(R) < 0){break;}
+        R += 0.5;
+        L -= 0.5;
     }
     int k = 0;
-    double M = (R + L)/2; 
-    while (abs(f(M)) - E > 0){
+    Point A(L, f(L));  
+    Point B(R, f(R));
+    double M_x = ((-1 * A.y) * (B.x- A.x))/(B.y - A.y) + A.x;
+    Point M(M_x, 0); 
+    while (abs(f(M.x)) - E > 0){
+        k++;
         if (f(L) > 0){
-            if (f(M) > 0){L = M;}
-            else {R = M;}
+            if (f(M.x) > 0){L = M.x;}
+            else {R = M.x;}
         }
         if (f(L) < 0){
-            if (f(M) < 0){L = M;}
-            else {R = M;}
+            if (f(M.x) < 0){L = M.x;}
+            else {R = M.x;}
         }
-        M = (R + L)/2;
-        k++;
-        }
+
+        Point A(L, f(L));  
+        Point B(R, f(R));
+        M_x = ((-1 * A.y) * (B.x- A.x))/(B.y - A.y) + A.x;
+        M.x = M_x;
+    }
     Result res1;
-    res1.setM(M);
+    res1.setM(M.x);
     res1.setK(k);
-    res1.setEp(abs(f(M)));
+    res1.setEp(abs(f(M.x)));
     return res1;
 }
 
 
 int main(){
-    Result fin = find_x(0.1);
+    Result fin = find_M(0.1);
     cout << fin << endl;
 }
