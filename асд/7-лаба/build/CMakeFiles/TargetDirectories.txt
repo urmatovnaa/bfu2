@@ -1,0 +1,3 @@
+/home/killua/Desktop/bfu_2/асд/7-лаба/build/CMakeFiles/rebb.dir
+/home/killua/Desktop/bfu_2/асд/7-лаба/build/CMakeFiles/edit_cache.dir
+/home/killua/Desktop/bfu_2/асд/7-лаба/build/CMakeFiles/rebuild_cache.dir
