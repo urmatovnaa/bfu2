@@ -29,9 +29,7 @@ def merge_sort(massive):
 
     return merge(left_half, right_half)
 
-if __name__ == "__main__":
-    list1 = [53, 21, 41, 5, 6, 38, 70, 0, 90, 6, 27, 789, 59, 2, 57, 29, 67, -5, 14, 70]
-    sorted_arr = merge_sort(list1)
-    print(sorted_arr)
 
-
+list1 = [53, 21, 41, 5, 6, 38, 70, 0, 90, 6, 27, 789, 59, 2, 57, 29, 67, -5, 14, 70]
+sorted_arr = merge_sort(list1)
+print(sorted_arr)

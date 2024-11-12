@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ef690e21-51b7-491f-a93d-a5e76ca282a6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/7-лаба/7-laba.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/7-лаба/7-laba.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/10-лаба/10-laba.py" beforeDir="false" afterPath="$PROJECT_DIR$/12-лаба/my_sort.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/12-лаба/12-laba.py" beforeDir="false" afterPath="$PROJECT_DIR$/12-лаба/12-laba.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../программирование/3-семестр/3-лаба/laba-3.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../программирование/3-семестр/3-лаба/laba-3.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,13 +40,23 @@
   "keyToString": {
     "Python.10-laba.executor": "Run",
     "Python.11-laba.executor": "Run",
+    "Python.12-laba.executor": "Run",
     "Python.8-laba.executor": "Run",
     "Python.9-laba.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master"
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/home/killua/Desktop/bfu_2/асд/10-лаба"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/10-лаба" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/12-лаба" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
