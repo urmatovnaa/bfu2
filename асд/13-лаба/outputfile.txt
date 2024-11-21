@@ -1,0 +1,50 @@
+0: abZA 
+1: aboba 
+2: Lion 
+3: aboba 
+4: Snail 
+5:   
+6:   
+7: Tiger 
+8: Wolf 
+9:   
+10:   
+11:   
+12:   
+13:   
+14:   
+15: Spider 
+16:   
+17: Elephant 
+18: Kangaroo 
+19: Dolphin 
+20:   
+21: Worm 
+22:   
+23:   
+24:   
+25:   
+26: Crab 
+27: Seahorse 
+28: Bear 
+29: green 
+30: apple 
+31: Lobster 
+32:   
+33:   
+34: Panda 
+35:   
+36: Starfish 
+37:   
+38: Jellyfish 
+39:   
+40:   
+41:   
+42: Giraffe 
+43:   
+44:   
+45: Scorpion 
+46:   
+47: clown 
+48: Whale 
+49: Octopus 
