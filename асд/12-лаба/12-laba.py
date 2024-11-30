@@ -51,7 +51,7 @@ def multiphase_sort_with_files(input_file, output_file, block_size):
             os.remove(file_name)
 
 
-input_file = "input2.txt"
+input_file = "input.txt"
 output_file = "sorted_output.txt"
 block_size = 50
 
