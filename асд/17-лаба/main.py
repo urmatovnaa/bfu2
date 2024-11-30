@@ -79,7 +79,7 @@ def insert(el, key):
         return Element(key)
     if key < el.value:
         el.left = insert(el.left, key)
-    elif key > el.value:
+    elif key >= el.value:
         el.right = insert(el.right, key)
     return el
 
