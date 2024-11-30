@@ -3,29 +3,66 @@ import random
 def generate_nfh_grammar():
     # Нормальная форма Хомского
     def S():
-    	random
-        return K() + A() + G()
+        choice = random.randrange(1, 3)
+        if choice == 1: return K() + G()
+        return L() + A()
 
     def A():
-        if random.random() < 0.5:
-            return A() + A()
-        else:
-            return ""
+        choice = random.randrange(1, 3)
+        if choice == 1: return H() + G()
+        return ""
 
+    def B():
+        return "("
+
+    def C():
+        return "]"
+
+    def D():
+        return B() + B()
+
+    def F():
+        return  A() + C()
+
+    def G():
+        return C() + A()
+
+    def H():
+        return B() + A()
+
+    def K():
+        return D() + F()
+
+    def L():
+        return H() + C()
     return S()
+
 
 def generate_nfg_grammar():
     # Нормальная форма Грейбаха
-    def S():
-        return "(" + A() + "]"
+    def A0():
+        choice = random.randrange(1, 3)
+        if choice == 1: return "(" + A1() + A3() + A1()
+        return "(" + A2() + A4() + A5()
 
-    def A():
-        if random.random() < 0.5:
-            return S()
-        else:
-            return ""
+    def A1():
+        choice = random.randrange(1, 3)
+        if choice == 1: return "(" + A1() + A5()
+        return ""
 
-    return S()
+    def A2():
+        return "("
+
+    def A3():
+        return "]"
+
+    def A4():
+        return "(" + A1() + A5() + A3()
+
+    def A5():
+        return ']' + A1()
+
+    return A0()
 
 # Генерация строк
 print("Строка из Нормальной формы Хомского:")

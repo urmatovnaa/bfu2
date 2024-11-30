@@ -4,7 +4,6 @@ OPERATORS = {
     '<->': (1, 'right'),      # Эквиваленция
     'v': (2, 'left'),         # OR
     '^': (3, 'left'),         # AND
-    '!': (4, 'right')         # NOT
 }
 
 # Функция для преобразования выражения в обратную польскую нотацию
@@ -57,21 +56,17 @@ def evaluate_rpn(rpn_tokens):
         if token.isdigit():  # Если токен - логическая константа
             stack.append(int(token))
         elif token in OPERATORS:
-            if token == '!':  # Унарный оператор (NOT)
-                operand = stack.pop()
-                stack.append(int(not operand))
-            else:  # Бинарные операторы
-                operand2 = stack.pop()
-                operand1 = stack.pop()
-                
-                if token == '->':  # Импликация
-                    stack.append(int(not operand1 or operand2))
-                elif token == '<->':  # Эквиваленция
-                    stack.append(int(operand1 == operand2))
-                elif token == 'v':  # OR
-                    stack.append(int(operand1 or operand2))
-                elif token == '^':  # AND
-                    stack.append(int(operand1 and operand2))
+            operand2 = stack.pop()
+            operand1 = stack.pop()
+
+            if token == '->':  # Импликация
+                stack.append(int(not operand1 or operand2))
+            elif token == '<->':  # Эквиваленция
+                stack.append(int(operand1 == operand2))
+            elif token == 'v':  # OR
+                stack.append(int(operand1 or operand2))
+            elif token == '^':  # AND
+                stack.append(int(operand1 and operand2))
         else:
             raise ValueError(f"Неизвестный токен: {token}")
     
@@ -120,6 +115,6 @@ def main(expression):
         print("Ошибка:", e)
 
 # Пример использования
-expression = "(1 ^ 0) -> 1"
+expression = "(1 ^ 0) <-> 1"
 main(expression)
 

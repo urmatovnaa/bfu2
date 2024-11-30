@@ -51,7 +51,7 @@ grammar = {
 parser = EarleyParser(grammar)
 
 # Пример строки длиной не менее 10
-input_string_10 = '+abbbcc'
+input_string_10 = '+abbcc'
 result_10 = parser.parse(input_string_10)
 print(f"String '{input_string_10}' parsing result: {result_10}")
 
@@ -59,4 +59,3 @@ print(f"String '{input_string_10}' parsing result: {result_10}")
 input_string_100 = '+abbbbbbcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc'
 result_100 = parser.parse(input_string_100)
 print(f"String '{input_string_100}' parsing result: {result_100}")
-s
