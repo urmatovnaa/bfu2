@@ -1,0 +1,9 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="MyApp.MainWindow"
+        Title="My Minimal App" Width="400" Height="300">
+    <StackPanel>
+        <TextBlock Text="Hello, Avalonia!" HorizontalAlignment="Center" Margin="10"/>
+        <Button Name="MyButton" Content="Click Me" HorizontalAlignment="Center" Margin="10"/>
+    </StackPanel>
+</Window>

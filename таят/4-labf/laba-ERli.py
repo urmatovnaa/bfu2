@@ -1,61 +1,114 @@
+from collections import defaultdict
+
 class EarleyParser:
     def __init__(self, grammar):
         self.grammar = grammar
-        self.start_symbol = next(iter(grammar))  # Начальный символ (первый ключ грамматики)
-    
+        self.chart = []
+
     def parse(self, string):
-        n = len(string)
-        # Инициализация парсера
-        states = [[] for _ in range(n + 1)]
-        states[0].append((self.start_symbol, 0, 0))  # Начальное состояние
+        self.chart = [set() for _ in range(len(string) + 1)]
+        self.chart[0].add(("S", 0, 0))  # Добавляем стартовое состояние
 
-        # Проход по каждому индексу строки
-        for i in range(n + 1):
-            for state in states[i]:
-                lhs, dot, rule_index = state
-                
-                # 1. Расширение (Predict)
-                if dot < len(self.grammar[lhs]):
-                    next_symbol = self.grammar[lhs][dot]
-                    if next_symbol in self.grammar:
-                        for rule in self.grammar[next_symbol]:
-                            states[i].append((next_symbol, 0, len(states[i])))
+        for i in range(len(string) + 1):
+            added = True
+            while added:
+                added = False
+                for state in list(self.chart[i]):
+                    if self._is_complete(state):
+                        added |= self._complete(state, i)
+                    elif self._is_nonterminal(state):
+                        added |= self._predict(state, i)
+                    else:
+                        added |= self._scan(state, i, string)
 
-                # 2. Сканирование (Scan)
-                if dot < len(self.grammar[lhs]) and i < n:
-                    next_symbol = self.grammar[lhs][dot]
-                    if next_symbol == string[i]:
-                        states[i + 1].append((lhs, dot + 1, rule_index))
+        # Таблица разбора
+        self._print_chart(string)
 
-                # 3. Завершение (Complete)
-                if dot == len(self.grammar[lhs]):
-                    for previous_state in states[rule_index]:
-                        prev_lhs, prev_dot, _ = previous_state
-                        if prev_dot < len(self.grammar[prev_lhs]) and self.grammar[prev_lhs][prev_dot] == lhs:
-                            states[i].append((prev_lhs, prev_dot + 1, rule_index))
+        # Проверка, принадлежит ли строка грамматике
+        for state in self.chart[-1]:
+            if state[0] == "S" and state[1] == len(self.grammar["S"][0]) and state[2] == 0:
+                return True
+        return False
 
-        # Проверка завершения
-        return any(lhs == self.start_symbol and dot == len(self.grammar[lhs]) for lhs, dot, _ in states[n])
+    def _is_complete(self, state):
+        # Проверяем, завершён ли анализ правила
+        head, pos, _ = state
+        rule = self.grammar.get(head, [[]])[0]
+        return pos == len(rule)
 
+    def _is_nonterminal(self, state):
+        # Проверяем, является ли текущий символ нетерминалом
+        head, pos, _ = state
+        rule = self.grammar.get(head, [[]])[0]
+        return pos < len(rule) and rule[pos].isupper()
 
-# Пример грамматики
-grammar = {
-    'S\'': ['+A'],
-    'A': ['aD'],
-    'D': ['BC'],
-    'B': ['bB', 'bc'],
-    'C': ['c']
-}
+    def _predict(self, state, index):
+        # Добавляем состояния для новых правил, порождаемых текущим нетерминалом
+        head, pos, _ = state
+        rule = self.grammar.get(head, [[]])[0]
+        next_symbol = rule[pos]
+        added = False
+        for production in self.grammar.get(next_symbol, []):
+            new_state = (next_symbol, 0, index)
+            if new_state not in self.chart[index]:
+                self.chart[index].add(new_state)
+                added = True
 
-# Создание экземпляра парсера
-parser = EarleyParser(grammar)
+            if production == ["e"]:  # Если пустое правило
+                completed_state = (head, pos + 1, state[2])
+                if completed_state not in self.chart[index]:
+                    self.chart[index].add(completed_state)
+                    added = True
+        return added
 
-# Пример строки длиной не менее 10
-input_string_10 = '+abbcc'
-result_10 = parser.parse(input_string_10)
-print(f"String '{input_string_10}' parsing result: {result_10}")
+    def _scan(self, state, index, string):
+        # Сканируем текущий символ строки
+        head, pos, start = state
+        rule = self.grammar.get(head, [[]])[0]
+        if index < len(string) and pos < len(rule) and rule[pos] == string[index]:
+            new_state = (head, pos + 1, start)
+            if new_state not in self.chart[index + 1]:
+                self.chart[index + 1].add(new_state)
+                return True
+        return False
 
-# Пример строки длиной не менее 100
-input_string_100 = '+abbbbbbcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc'
-result_100 = parser.parse(input_string_100)
-print(f"String '{input_string_100}' parsing result: {result_100}")
+    def _complete(self, state, index):
+        # Завершаем обработку правила
+        head, pos, start = state
+        added = False
+        for prev_state in self.chart[start]:
+            prev_head, prev_pos, prev_start = prev_state
+            prev_rule = self.grammar.get(prev_head, [[]])[0]
+            if prev_pos < len(prev_rule) and prev_rule[prev_pos] == head:
+                new_state = (prev_head, prev_pos + 1, prev_start)
+                if new_state not in self.chart[index]:
+                    self.chart[index].add(new_state)
+                    added = True
+        return added
+
+    def _print_chart(self, string):
+        print("Таблица разбора:")
+        for i, states in enumerate(self.chart):
+            print(f"Позиция {i}: {string[:i]} -> {string[i:]}")
+            for state in states:
+                head, pos, start = state
+                rule = self.grammar.get(head, [[]])[0]
+                print(f"  {head} -> {''.join(rule[:pos])}·{''.join(rule[pos:])}, {start}")
+            print()
+
+if __name__ == "__main__":
+    # Пример грамматики
+    grammar = {
+        "S'": [["S"]],
+        "S": [["+", "a", "b", "b", "A", "c", "c"]],
+        "A": [["b", "A", "c"], ["e"]]
+    }
+
+    # Пример строки для разбора
+    string = "+abbbccc"
+
+    parser = EarleyParser(grammar)
+    if parser.parse(string):
+        print(f"Строка '{string}' входит в грамматику.")
+    else:
+        print(f"Строка '{string}' НЕ входит в грамматику.")
